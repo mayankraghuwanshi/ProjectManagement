@@ -1,22 +1,34 @@
-package com.mayank.ProjectManagement.Entity;
+package com.mayank.ProjectManagement.Entities;
 
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @NotBlank(message = "Please provide project name")
     private String projectName;
-    private String projectIdentity;
+    @NotBlank(message = "Please provide project identifier")
+    @Column(unique = true , updatable = false)
+    private String projectIdentifier;
+    @NotBlank(message = "Please provide description")
     private String description;
+    @JsonFormat(pattern = "yyyy/mm/dd")
     private Date createDate;
+    @JsonFormat(pattern = "yyyy/mm/dd")
     private Date updateDate;
+    @JsonFormat(pattern = "yyyy/mm/dd")
     private Date startDate;
 
-    public long getId() {
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "project")
+    private Backlog backlog;
+
+    public Long getId() {
         return id;
     }
 
@@ -32,12 +44,20 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public String getProjectIdentity() {
-        return projectIdentity;
+    public Backlog getBacklog() {
+        return backlog;
     }
 
-    public void setProjectIdentity(String projectIdentity) {
-        this.projectIdentity = projectIdentity;
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
+
+    public String getProjectIdentifier() {
+        return projectIdentifier;
+    }
+
+    public void setProjectIdentifier(String projectIdentifier) {
+        this.projectIdentifier = projectIdentifier;
     }
 
     public String getDescription() {
