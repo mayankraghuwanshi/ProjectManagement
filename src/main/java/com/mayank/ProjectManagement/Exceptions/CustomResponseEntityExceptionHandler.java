@@ -17,4 +17,10 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ProjectIdExceptionResponse projectIdExceptionResponse = new ProjectIdExceptionResponse(projectIdException.getMessage());
         return new ResponseEntity(projectIdExceptionResponse , HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserAlredyExistException(UserAlredyExistException e , WebRequest request){
+        UserAlredyExistResponse response = new UserAlredyExistResponse("Email alredy exist");
+        return  new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+    }
 }
