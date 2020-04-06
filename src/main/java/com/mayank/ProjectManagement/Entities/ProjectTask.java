@@ -1,6 +1,6 @@
 package com.mayank.ProjectManagement.Entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.lang.NonNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,18 +20,44 @@ public class ProjectTask {
     private String acceptanceCriteria;
     @Column(updatable = false)
     private String projectIdentifier;
-    @NotBlank(message = "please add status")
+
     private String status;
-    @NotNull(message = "project should have priority")
     private Integer priority;
+
     @JsonFormat(pattern = "yyyy/mm/dd")
-    @NotBlank(message = "due message is needed")
     private Date dueDate;
     @JsonFormat(pattern = "yyyy/mm/dd")
     @Column(updatable = false)
     private Date createdAt;
     @JsonFormat(pattern = "yyyy/mm/dd")
     private Date updatedAt;
+
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REFRESH )
+    @JoinColumn(name = "backlog_id", updatable = false , nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
+
+
+
+    public ProjectTask(String projectIdentifier , String projectSequence , String summary , String status ){
+        this.projectIdentifier=projectIdentifier;
+        this.projectSequence=projectSequence;
+        this.summary=summary;
+        this.status=status;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
+    }
 
     @PrePersist
     public void onCreate(){
@@ -45,7 +71,7 @@ public class ProjectTask {
     public ProjectTask() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

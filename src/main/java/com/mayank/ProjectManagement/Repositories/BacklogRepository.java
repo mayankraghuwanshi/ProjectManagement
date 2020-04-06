@@ -1,4 +1,4 @@
-package com.mayank.ProjectManagement.Repositorys;
+package com.mayank.ProjectManagement.Repositories;
 
 import com.mayank.ProjectManagement.Entities.Backlog;
 import org.springframework.data.repository.CrudRepository;

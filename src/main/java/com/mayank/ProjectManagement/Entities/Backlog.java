@@ -3,6 +3,7 @@ package com.mayank.ProjectManagement.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Backlog {
@@ -14,10 +15,22 @@ public class Backlog {
     private Integer PTSqeuence = 0;
     @Column(updatable = false)
     private String projectIdentifier;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id" , nullable = false)
     @JsonIgnore
     private Project project;
+
+    public List<ProjectTask> getProjectTasks() {
+        return projectTasks;
+    }
+
+    public void setProjectTasks(List<ProjectTask> projectTasks) {
+        this.projectTasks = projectTasks;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL, mappedBy = "backlog")
+    private List<ProjectTask> projectTasks;
 
     public Project getProject() {
         return project;

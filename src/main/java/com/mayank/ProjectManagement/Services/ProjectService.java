@@ -2,10 +2,12 @@ package com.mayank.ProjectManagement.Services;
 import com.mayank.ProjectManagement.Entities.Backlog;
 import com.mayank.ProjectManagement.Entities.Project;
 import com.mayank.ProjectManagement.Exceptions.ProjectIdException;
-import com.mayank.ProjectManagement.Repositorys.BacklogRepository;
-import com.mayank.ProjectManagement.Repositorys.ProjectRepository;
+import com.mayank.ProjectManagement.Repositories.BacklogRepository;
+import com.mayank.ProjectManagement.Repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -46,10 +48,17 @@ public class ProjectService {
         return project;
     }
 
+
     public void deleteProjectById(String projectId) {
         Project project = projectRepository.findProjectByProjectIdentifier(projectId);
         if(project==null) throw new ProjectIdException("Project doesn't exist!");
         projectRepository.delete(project);
     }
 
+
+    public void seedProject(List<Project> projectList){
+        for(Project project : projectList){
+            this.saveOrUpdate(project);
+        }
+    }
 }

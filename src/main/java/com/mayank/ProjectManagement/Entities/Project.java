@@ -1,8 +1,11 @@
 package com.mayank.ProjectManagement.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.security.PublicKey;
 import java.util.Date;
 
 @Entity
@@ -14,6 +17,7 @@ public class Project {
     @NotBlank(message = "Please provide project name")
     private String projectName;
     @NotBlank(message = "Please provide project identifier")
+
     @Column(unique = true , updatable = false)
     private String projectIdentifier;
     @NotBlank(message = "Please provide description")
@@ -25,9 +29,12 @@ public class Project {
     @JsonFormat(pattern = "yyyy/mm/dd")
     private Date startDate;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "project")
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
     private Backlog backlog;
 
+
+    public Project(){};
     public Long getId() {
         return id;
     }
@@ -102,5 +109,9 @@ public class Project {
         this.updateDate = new Date();
     }
 
-
+    public Project(String projectName , String projectIdentifier , String description){
+        this.projectName=projectName;
+        this.projectIdentifier=projectIdentifier;
+        this.description=description;
+    }
 }

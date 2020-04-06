@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 
@@ -50,4 +49,5 @@ public class ProjectController {
     public ResponseEntity<Iterable<Project>> getAllProjects(){
         return new ResponseEntity<>(projectService.getAllProjects(),HttpStatus.OK);
     }
+
 }
