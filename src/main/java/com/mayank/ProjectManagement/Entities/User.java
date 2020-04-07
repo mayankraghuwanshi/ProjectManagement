@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String password;
 
     @NotBlank(message = "confirm password is needed")
+    @JsonIgnore
     private String confirmPassword;
 
     @JsonFormat(pattern = "yyyy/mm/dd")
